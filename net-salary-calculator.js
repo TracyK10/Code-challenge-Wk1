@@ -26,9 +26,9 @@ function calculatePayeeMonthly(salary) {
 
 // calculating payee per year
 function calculatePayeeYearly(salary) {
-  let annualSalary = salary * 12;
+  let annualSalary = salary;
   if (annualSalary <= 288000) {
-    return annualSalary * 0.1;
+    return (annualSalary * 0.1);
   } else if (annualSalary <= 388000) {
     return annualSalary * 0.25;
   } else if (annualSalary <= 6000000) {
@@ -61,7 +61,7 @@ function calculateNHIF(grossSalary) {
     { limit: 89999, deduction: 1500 },
     { limit: 99999, deduction: 1600 },
   ];
-//function for iterating over the array
+  //function for iterating over the array
   for (const { limit, deduction } of deductions) {
     if (grossSalary <= limit) {
       return deduction;
@@ -87,18 +87,29 @@ function finalNetSalary(grossSalary, deductions) {
 }
 
 //using the input and passing to the calculator
-let inputSalary = parseInt(prompt("Input your monthly salary: "));
+let inputSalary = parseInt(prompt("Input your monthly/yearly salary: "));
 let inputBenefits = parseInt(prompt("Input your benefits: "));
-let gross = grossSalary(inputSalary, inputBenefits);
-let payeeMonthly = calculatePayeeMonthly(gross);
-let payeeAnnually = calculatePayeeYearly(gross);
-let nhif = calculateNHIF(gross); // Implement NHIF calculation
-let nssf = calculateNSSF(gross);
-let tax = totalDeductions(payeeMonthly, nhif, nssf);
-let taxAnnual = totalDeductions(payeeAnnually, nhif, nssf);
-let netSalary = finalNetSalary(gross, tax);
-let netSalaryAnnual = finalNetSalary(gross, taxAnnual);
+let option = prompt("Is it Monthly or Yearly: ");
 
-console.log(
-  `Your monthly gross salary is ${gross}. You have a PAYEE of ${payeeMonthly}, NHIF of ${nhif}, and NSSF of ${nssf}. Hence, your total deductions are ${tax}. Your net salary is ${netSalary}. Your yearly PAYEE is ${payeeAnnually} and your net salary for the year is ${netSalaryAnnual}.`
-);
+let gross, payeeMonthly, nhif, nssf, tax, netSalary, netSalaryAnnual, payeeAnnually;
+if (option === "Monthly") {
+  gross = grossSalary(inputSalary, inputBenefits);
+  payeeMonthly = calculatePayeeMonthly(gross);
+  nhif = calculateNHIF(gross); // Implement NHIF calculation
+  nssf = calculateNSSF(gross);
+  tax = totalDeductions(payeeMonthly, nhif, nssf);
+  netSalary = finalNetSalary(gross, tax);
+  console.log(
+    `Your monthly gross salary is ${gross}. You have a PAYEE of ${payeeMonthly}, NHIF of ${nhif}, and NSSF of ${nssf}. Hence, your total deductions are ${tax}. Your net salary is ${netSalary}.`
+  );
+} else {
+  gross = grossSalary(inputSalary, inputBenefits);
+  payeeAnnually = calculatePayeeYearly(gross);
+  nhif = calculateNHIF(gross); // Implement NHIF calculation
+  nssf = calculateNSSF(gross);
+  taxAnnual = totalDeductions(payeeAnnually, nhif, nssf);
+  netSalaryAnnual = finalNetSalary(gross, taxAnnual);
+  console.log(`Your yearly gross salary is ${gross}. Your yearly PAYEE is ${payeeAnnually}, NHIF of ${nhif}, NSSF of ${nssf} and your net salary for the year is ${netSalaryAnnual}.`)
+}
+
+
