@@ -111,5 +111,3 @@ if (option === "Monthly") {
   netSalaryAnnual = finalNetSalary(gross, taxAnnual);
   console.log(`Your yearly gross salary is ${gross}. Your yearly PAYEE is ${payeeAnnually}, NHIF of ${nhif}, NSSF of ${nssf} and your net salary for the year is ${netSalaryAnnual}.`)
 }
-
-
